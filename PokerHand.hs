@@ -2,4 +2,4 @@ module PokerHand
 where
 
 scores :: [String] -> [String]
-scores _ = []
+scores hs = hs
