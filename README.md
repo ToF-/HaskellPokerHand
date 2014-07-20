@@ -27,7 +27,7 @@ YOU: Right. And why did the fifth player play with a 4 and 2? They're suited, bu
 
 BOB: Stay on topic. Now, the end result of your code should generate output that looks like this:
 
-``
+```
 Kc 9s Ks Kd 9d 3c 6d Full House (winner)
 9c Ah Ks Kd 9d 3c 6d Two Pair
 Ac Qc Ks Kd 9d 3c 
