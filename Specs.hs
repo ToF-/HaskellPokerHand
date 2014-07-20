@@ -47,4 +47,7 @@ main = hspec $ do
         it "should rank High Cards hands with higher card" $ do
             ranking (map card ["3s","6c","Ts","Qh","5d"]) `shouldBe` HighCard (value (card "Qh"))
                     
-
+    describe "bestHand function" $ do
+        it "should find the best hand given a list of cards" $ do
+            bestHand (map card ["3s","6c","Ts","Qh","5d","As","Kh"]) 
+                `shouldBe` Just (HighCard (value (card "As")))

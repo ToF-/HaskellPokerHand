@@ -55,9 +55,8 @@ instance Show Hand
     where show (HighCard _) = "High Card"
 
 bestHand :: [Card] -> Maybe Hand
-bestHand cs = case length cs of
-                7 -> Just (HighCard 14)
-                _ -> Nothing
+bestHand cs | length cs < 7 = Nothing
+bestHand cs | otherwise = Just (maximum (map ranking (hands cs)))
 
 showHandScore :: Maybe Hand -> String
 showHandScore (Just hand) = show hand
