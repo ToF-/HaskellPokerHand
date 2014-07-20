@@ -9,8 +9,13 @@ data Suit = Spade | Heart | Clover | Diamond
 instance Ord Suit 
     where compare _ _ = EQ
 
-data Card = Card Int Suit
+type Value = Int
+
+data Card = Card Value Suit
     deriving (Show, Eq, Ord)
+
+data Hand = HighCard Value
+    deriving (Eq, Ord)
 
 card :: String -> Card
 card [r,s] = Card (toValue r) (toSuit s)
@@ -35,8 +40,6 @@ value (Card v s) = v
 suit :: Card -> Suit
 suit (Card v s) = s
 
-type Rank = Integer
-data Hand = HighCard Rank
 
 scores :: [String] -> [String]
 scores = map score 
@@ -62,3 +65,6 @@ showHandScore Nothing     = ""
 
 hands :: [a] -> [[a]]
 hands = filter (\s -> length s == 5) . subsequences
+
+ranking :: [Card] -> Hand
+ranking cards = HighCard (value (head (reverse (sort cards))))

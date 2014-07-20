@@ -42,3 +42,9 @@ main = hspec $ do
     describe "hands function" $ do
         it "can extract all possible sequences of 5 items from a list" $ do
             hands "ABCDEF" `shouldBe` ["ABCDE","ABCDF","ABCEF","ABDEF","ACDEF","BCDEF"]
+
+    describe "ranking function" $ do
+        it "should rank High Cards hands with higher card" $ do
+            ranking (map card ["3s","6c","Ts","Qh","5d"]) `shouldBe` HighCard (value (card "Qh"))
+                    
+
