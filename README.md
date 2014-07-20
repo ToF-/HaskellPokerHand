@@ -34,7 +34,8 @@ Ac Qc Ks Kd 9d 3c
 9h 5s 
 4d 2d Ks Kd 9d 3c 6d Flush
 7s Ts Ks Kd 9d 
-``
+```
+
 YOU: Okay, so I repeat the cards, list the rank or nothing if the player folded, and the word "winner" in parenthesis next to the winning hand. Do you want the cards rearranged at all?
 
 BOB: Hmmm... we can get by without it, but if you have the time, do it. Don't bother for folded hands, but for ranked hands, move the cards used to the front of the line, sorted by face. Kickers follow that, and the two unused cards go at the end, just before the rank is listed.
