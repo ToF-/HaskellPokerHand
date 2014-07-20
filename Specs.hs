@@ -5,13 +5,13 @@ main :: IO ()
 main = hspec $ do
     describe "scores function" $ do
         it "should process empty entries, yielding empty result" $ do
-            scores [] `shouldBe` []
+            scoreLines [] `shouldBe` []
 
         it "should just show cards if a player has folded" $ do
-            scores ["9h 5s", "7s Ts Ks Kd 9d"] `shouldBe` ["9h 5s", "7s Ts Ks Kd 9d"] 
+            scoreLines ["9h 5s", "7s Ts Ks Kd 9d"] `shouldBe` ["9h 5s", "7s Ts Ks Kd 9d"] 
 
         it "should rank the only High Card in a game as the winner" $ do
-            scores ["Kc Qd Jc 8h 7h 5h 2s","Kc 2s"] `shouldBe`  ["Kc Qd Jc 8h 7h 5h 2s High Card (winner)","Kc 2s"]
+            scoreLines ["Kc Qd Jc 8h 7h 5h 2s","Kc 2s"] `shouldBe`  ["Kc Qd Jc 8h 7h 5h 2s High Card (winner)","Kc 2s"]
 
     describe "Card values" $ do
         it "should be created from a string in the form [A|K|Q|J|T|9..2][h|s|c|d]" $ do
@@ -50,4 +50,4 @@ main = hspec $ do
     describe "bestHand function" $ do
         it "should find the best hand given a list of cards" $ do
             bestHand (map card ["3s","6c","Ts","Qh","5d","As","Kh"]) 
-                `shouldBe` Just (HighCard (value (card "As")))
+                `shouldBe` HighCard (value (card "As"))
