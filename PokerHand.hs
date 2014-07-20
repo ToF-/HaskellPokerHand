@@ -8,13 +8,13 @@ scores :: [String] -> [String]
 scores = map score 
 
 score :: String -> String        
-score hs = 
+score s = 
     let
-        cs = cards hs
+        cs = cards s
         sc = case bestRank cs of 
                 Just r -> " " ++ show r ++ " (winner)"
                 Nothing -> ""
-    in hs ++ sc
+    in s ++ sc
         
 cards :: String -> [Card]
 cards = words
