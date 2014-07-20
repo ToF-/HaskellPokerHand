@@ -1,11 +1,16 @@
 module PokerHand
 where
 import Data.Char
+import Data.List
 
 data Suit = Spade | Heart | Clover | Diamond
     deriving (Show, Eq)
+
+instance Ord Suit 
+    where compare _ _ = EQ
+
 data Card = Card Int Suit
-    deriving (Show, Eq)
+    deriving (Show, Eq, Ord)
 
 card :: String -> Card
 card [r,s] = Card (toValue r) (toSuit s)
@@ -54,3 +59,6 @@ bestHand cs = case length cs of
 showHandScore :: Maybe Hand -> String
 showHandScore (Just hand) = show hand
 showHandScore Nothing     = ""
+
+hands :: [a] -> [[a]]
+hands = filter (\s -> length s == 5) . subsequences

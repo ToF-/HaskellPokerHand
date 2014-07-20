@@ -27,8 +27,18 @@ main = hspec $ do
             card "Jd" `shouldBe` Card 11 Diamond
             card "Ts" `shouldBe` Card 10 Spade
 
+        it "should compare one another" $ do
+            compare (card "Ah") (card "Ks") `shouldBe` GT
+
+        it "should compare values only, disregarding suit" $ do
+            compare (card "Th") (card "Ts") `shouldBe` EQ
+
         it "should extract its value" $ do
             value (card "Qc") `shouldBe` 12
 
         it "should extract its suit" $ do
             suit (card "Qc") `shouldBe` Clover
+
+    describe "hands function" $ do
+        it "can extract all possible sequences of 5 items from a list" $ do
+            hands "ABCDEF" `shouldBe` ["ABCDE","ABCDF","ABCEF","ABDEF","ACDEF","BCDEF"]
