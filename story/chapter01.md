@@ -126,10 +126,10 @@ Bob: The case where we have a winner. In that case, that info is mentioned, alon
         it "should show a winner on a round with only one player with a High Card" $ do
             displayRound ["Ac Qc Ks Kd 9d 3c"
                          ,"9h 5s"
-                         ,"4d 2d Ks Kd 9d 3c 6d"]
+                         ,"4d 2s Ks Kd 9d 3c 6d"]
               `shouldBe` ["Ac Qc Ks Kd 9d 3c"
                          ,"9h 5s"
-                         ,"4d 2d Ks Kd 9d 3c 6d High Card (winner)"]
+                         ,"4d 2s Ks Kd 9d 3c 6d High Card (winner)"]
 ```
 
 ToF: So now, the value of the score line depends on the entry. It's still very simple: if the entry contains less than 7 cards, the player folded, we just replicate the line. If the entry contains 7 cards, we assume this is a High Card, and this line is the winner: 
@@ -153,3 +153,30 @@ score line | size line == 7 = line ++ " High Card (winner)"
 size :: EntryLine -> Int
 size = length . words 
 ```
+
+ToF: Of course that is still very unsatifying. What happens if there are several lines containing 7 cards?
+
+Bob: Then, the winner is on the line with the best High Card ranking; here's a test:
+
+```
+        it "should show a winner on a round with several High Card, with one ranking higher" $ do
+            displayRound ["9h 5s"
+                         ,"4d 2s Qs Kd 9d 3c 6d" 
+                         ,"4d 2s Ks Kd 9d 3c 6d"]
+              `shouldBe` ["9h 5s"
+                         ,"4d 2s Qs Kd 9d 3c 6d High Card"
+                         ,"4d 2s Ks Kd 9d 3c 6d High Card (winner)"]
+```
+
+ToF: Wow, now the computation for score is much more complex:
+- if the line doesn't contain 7 cards, just output the line
+- if the line does contain 7 cards, mention "High Card" at the end of the line
+- if the line does contain 7 cards, and the high card hand given by the 5 biggest cards of that line has the best rank in all the round, add the winner tag to that line.
+
+Bob: I propose that we remove that last test for now, and proceed with smaller steps.
+
+ToF: Or we can make the test past with fake answers and try to refactor. 
+
+Bob: Okay. Let's try.
+
+
