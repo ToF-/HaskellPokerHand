@@ -117,4 +117,39 @@ import PokerHand
 main :: IO ()
 main = interact (unlines . displayRound . lines)
 ```
+
+ToF: Okay! We need to move forward a bit. What would be a simple test that we could write that would require us to really compute a score line instead of just replicating the input?
+
+Bob: The case where we have a winner. In that case, that info is mentioned, along with the "winner" tag:
+
+```
+        it "should show a winner on a round with only one player with a High Card" $ do
+            displayRound ["Ac Qc Ks Kd 9d 3c"
+                         ,"9h 5s"
+                         ,"4d 2d Ks Kd 9d 3c 6d"]
+              `shouldBe` ["Ac Qc Ks Kd 9d 3c"
+                         ,"9h 5s"
+                         ,"4d 2d Ks Kd 9d 3c 6d High Card (winner)"]
+```
+
+ToF: So now, the value of the score line depends on the entry. It's still very simple: if the entry contains less than 7 cards, the player folded, we just replicate the line. If the entry contains 7 cards, we assume this is a High Card, and this line is the winner: 
     
+```
+displayRound :: [EntryLine] -> [ScoreLine]
+displayRound = map score
+
+score :: EntryLine -> ScoreLine
+score line | length (words line) == 7 = line ++ " High Card (winner)" 
+           | otherwise                = line
+```
+
+Bob: That passes the test! But that's not very clear. Let's create a helper for counting cards:
+
+```
+score :: EntryLine -> ScoreLine
+score line | size line == 7 = line ++ " High Card (winner)" 
+           | otherwise      = line
+
+size :: EntryLine -> Int
+size = length . words 
+```
