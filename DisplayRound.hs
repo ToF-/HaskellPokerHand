@@ -3,5 +3,5 @@ where
 import PokerHand
 
 main :: IO ()
-main = interact displayRound 
+main = interact (unlines . displayRound . lines)
     

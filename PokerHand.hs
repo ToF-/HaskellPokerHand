@@ -1,5 +1,8 @@
 module PokerHand
 where
 
-displayRound :: String -> String
+type EntryLine = String
+type ScoreLine = String
+
+displayRound :: [EntryLine] -> [ScoreLine]
 displayRound = id

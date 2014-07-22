@@ -79,3 +79,42 @@ displayRound = id
 ```
 Since in that case, the entry is just repeated without any new information.
 
+ToF: Well, even if that program does not really compute anything, we could still enhance its structure. For example, it would be better to express what is displayed as score lines, those being the result of computations done on entry lines:
+
+```
+module PokerHand
+where
+
+type EntryLine = String
+type ScoreLine = String
+
+displayRound :: [EntryLine] -> [ScoreLine]
+displayRound = id
+```
+
+Bob: In that case we have to change the test:
+```
+import Test.Hspec
+import PokerHand
+
+main :: IO ()
+main = hspec $ do
+    describe "displayRound function" $ do
+        it "should show no winner on a round with only players who fold" $ do
+            displayRound ["Ac Qc Ks Kd 9d 3c"
+                         ,"9h 5s"            ] 
+              `shouldBe` ["Ac Qc Ks Kd 9d 3c"
+                         ,"9h 5s"            ]
+```
+
+ToF: We also have to change our main program, so that the contents of the interaction is split in lines for our function, and the result put back into the form of a block of text:
+
+```
+module Main
+where
+import PokerHand
+
+main :: IO ()
+main = interact (unlines . displayRound . lines)
+```
+    
