@@ -38,13 +38,44 @@ Bob: Let's list them:
   
 ToF: Okay. We need to prepare two things: a test harness, and a main program. The main program will read its input, do some computations, and print the result. 
 
-Here's our main function:
+ToF: Here's our main function:
 
 ```
+import PokerHand
+
 main :: IO ()
 main = interact displayRound 
 ```
 
-Of course, we have to define the `displayRound` function. The built in function: `interact` requires a function of type `String -> String`.
+ToF: Of course, we have to define the `displayRound` function, in the module called `PokerHand`. Since it is given to `interact` it should be a function of type `String -> String`.
 
+Bob: Here's the data for the first acceptance test case:
+
+```
+Ac Qc Ks Kd 9d 3c
+9h 5s
+```
+
+ToF: Okay, let's write a test program. We will use `hspec` as it makes test execution really clear about what is specified.
+```
+import Test.Hspec
+import PokerHand
+
+main :: IO ()
+main = hspec $ do
+    describe "displayRound function" $ do
+        it "should show no winner on a round with only players who fold" $ do
+            displayRound "Ac Qc Ks Kd 9d 3c\n9h 5s\n" `shouldBe` "Ac Qc Ks Kd 9d 3c\n9h 5s\n"
+```
+
+Bob: Let's now write the `PokerHand` module. It's really easy:
+
+```
+module PokerHand
+where
+
+displayRound :: String -> String
+displayRound = id
+```
+Since in that case, the entry is just repeated without any new information.
 
