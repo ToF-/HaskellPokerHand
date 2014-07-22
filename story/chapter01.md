@@ -36,5 +36,15 @@ Bob: Let's list them:
 - One winner: some players fold, the other have High Card hands, one of them have the highest ranking card as first card
 - Two winners: two players are in a tie, with same High Card hand
   
+ToF: Okay. We need to prepare two things: a test harness, and a main program. The main program will read its input, do some computations, and print the result. 
+
+Here's our main function:
+
+```
+main :: IO ()
+main = interact displayRound 
+```
+
+Of course, we have to define the `displayRound` function. The built in function: `interact` requires a function of type `String -> String`.
 
 
