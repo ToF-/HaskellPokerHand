@@ -1,0 +1,31 @@
+3 questions:
+#1 what would be a good type to deal with values represented by the entry lines?
+#2 how do we extract the best hand from a line?
+#3 how do we display the hand ranking and the winner tag along with the entry lines?
+
+Question #2 is the most complex, and we're not sure to be able to tackle all the difficulties in one sprint, so I propose we begin with writing a simpler program that recognizes only High Cards. 
+
+First question: what type would correctly represent the values given in input. Hint: this is not String. We need a type that
+ a) constraints the possible values into the domain V x S where V are the different values from 2 to 10, Jack, Queen, King and Ace, and S are either Heart, Spade, Diamond, Clover.
+ b) is ordered, ie if the list of values is sorted from 2 to Ace, each value in the list is smaller than any of the following values.
+
+the function `words` can extract the different strings from an entry line.
+a new function `card :: String -> Card` creates a `Card` from a String, e.g. 
+`cards "Ks" <==> Card King Spade
+
+no matter how we represent Card values, we should ensure that 
+if 
+cs = sort $ map card "2s 3s 4s 5s 6s 7s 8s 9s Ts Js Qs Ks As"
+then 
+isStrictlyOrdered cs <==> True
+where
+
+isStrictlyOrdered [x]      = True
+isStrictlyOrdered (x:y:xs) = x < y && isStrictlyOrdered (y:xs)
+
+Second question: to extract the best hand from a list of cards, if the program only recognize High Cards, we have to sort the list of by card value, in descending order, and take the 5 first cards. If we have less than 5 cards in the list, we denote this list as a NotAHand value. If we have 5 cards, it's a HighCard, and we can take the highest card value as the ranking value of the High Card.
+
+ 
+
+
+
