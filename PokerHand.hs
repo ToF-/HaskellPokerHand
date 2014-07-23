@@ -1,17 +1,10 @@
 module PokerHand
 where
 
-type EntryLine = String
-type ScoreLine = String
+data Value = King   deriving (Show,Eq)
+data Suit  = Spade  deriving (Show,Eq)
+data Card  = Card Value Suit
+    deriving (Show, Eq)
 
-displayRound :: [EntryLine] -> [ScoreLine]
-displayRound = map score
-
-score :: EntryLine -> ScoreLine
-score line | line == "4d 2s Ks Kd 9d 3c 6d" = line ++ " High Card (winner)" 
-
-score line | size line == 7 = line ++ " High Card" 
-           | otherwise      = line
-
-size :: EntryLine -> Int
-size = length . words 
+card :: String -> Card
+card "Ks" = Card King Spade
