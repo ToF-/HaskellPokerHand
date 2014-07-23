@@ -7,3 +7,7 @@ main = hspec $ do
         it "should be extracted from Strings" $ do
             card "Ks" `shouldBe` Card King Spade
             card "Ah" `shouldBe` Card Ace Heart
+
+        it "should have a suit" $ do
+            map suit (map card (words "Kh Ks Kd Kc"))
+                `shouldBe` [Heart, Spade, Diamond, Clover]
