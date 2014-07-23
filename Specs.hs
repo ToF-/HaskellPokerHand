@@ -9,5 +9,5 @@ main = hspec $ do
             card "Ah" `shouldBe` Card Ace Heart
 
         it "should have a suit" $ do
-            map suit (map card (words "Kh Ks Kd Kc"))
+            map (suit.card) (words "Kh Ks Kd Kc")
                 `shouldBe` [Heart, Spade, Diamond, Clover]
