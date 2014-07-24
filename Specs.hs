@@ -55,7 +55,7 @@ main = hspec $ do
     describe "the displayScore function" $ do
         it "should display the score for a given input" $ do
             let input  = "4h Td 3c Ks Qd 8s\n4h Td 3c Ks Qd 8s 6s\n 4h Td 3c Qs Js 7h 2s\n"
-                output = "4h Td 3c Ks Qd 8s\n4h Td 3c Ks Qd 8s 6s High Card (winner)\n 4h Td 3c Qs Js 7h 2s High Card\n"
+                output = "4h Td 3c Ks Qd 8s \n4h Td 3c Ks Qd 8s 6s High Card (winner)\n 4h Td 3c Qs Js 7h 2s High Card\n"
             displayScore input `shouldBe` output
 
 

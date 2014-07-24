@@ -49,7 +49,10 @@ value (Card v s) = v
 
 data Hand = Fold
           | HighCard [Value]
-    deriving (Eq, Show, Ord)
+    deriving (Eq, Ord)
+instance Show Hand
+    where show Fold = ""
+          show (HighCard _) = "High Card"
 
 hand :: [Card] -> Hand
 hand cs | length cs < 7 = Fold
@@ -70,7 +73,5 @@ displayScore s =
         ls = lines s
         hs = map cards ls
         ss = score hs
-        display s (Fold, False) = s
-        display s (HighCard _, False) = s ++ " High Card"
-        display s (HighCard _, True)  = s ++ " High Card (winner)"
+        display s (h, w) = s ++ " " ++ show h ++ if w then " (winner)" else ""
     in unlines $ zipWith display ls ss
