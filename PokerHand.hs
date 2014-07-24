@@ -58,11 +58,13 @@ instance Show Hand
 
 hand :: [Card] -> Hand
 hand cs | length cs < 7 = Fold
-        | otherwise     = maximum allHands
-    where allHands = map rank $ allGroups $ reverse $ sort cs
+        | otherwise     = bestHand cs
 
-allGroups :: [a] -> [[a]]
-allGroups = filter ((==5).length) . subsequences
+bestHand :: [Card] -> Hand
+bestHand = maximum . 
+           map rank .
+           filter ((==5).length) . subsequences .
+           reverse . sort 
 
 rank :: [Card] -> Hand 
 rank cs | isFlush cs = Flush (map value cs)
