@@ -1,5 +1,6 @@
 import Test.Hspec
 import PokerHand
+import Data.List
 
 main :: IO ()
 main = hspec $ do
@@ -8,6 +9,6 @@ main = hspec $ do
             card "Ks" `shouldBe` Card King Spade
             card "Ah" `shouldBe` Card Ace Heart
 
-        it "should have a suit" $ do
-            map (suit.card) (words "Kh Ks Kd Kc")
-                `shouldBe` [Heart, Spade, Diamond, Clover]
+        it "should have a one of four distinct suits" $ do
+            length (nub (map (suit.card) (words "Kh Ks Kd Kc")))
+                `shouldBe` 4
