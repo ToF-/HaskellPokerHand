@@ -40,7 +40,5 @@ suitFromChar 's' = Spade
 suitFromChar 'd' = Diamond
 suitFromChar 'c' = Clover
 
-
-
 suit :: Card -> Suit
 suit (Card _ s) = s

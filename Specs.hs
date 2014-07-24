@@ -10,7 +10,7 @@ main = hspec $ do
             card "Ah" `shouldBe` Card Ace Heart
 
         it "should have a one of four distinct suits" $ do
-            length (nub (cards "Kh Ks Kd Kc"))
+            length (nub (map suit (cards "Kh Ks Kd Kc")))
                 `shouldBe` 4
 
         it "should be a set of 52 distinct elements" $ do
