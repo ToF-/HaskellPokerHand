@@ -42,7 +42,7 @@ main = hspec $ do
                 player2 = cards "4h Td 3c Ks Qd 8s 6s"
             score [player1, player2] `shouldBe` [(Fold,False),(HighCard [King, Queen, Ten, Eight, Six], True)]
         
-        it "should tag several winners for several equal ranking of hands" $ do
+        it "should tag several winners for several best ranking of hands" $ do
             let player1 = cards "4h Td 3c Ks Qd 8s 6s"
                 player2 = cards "4h Td 3c Ks Qd 8s 6s"
             map snd (score [player1, player2]) `shouldBe` [True, True]
