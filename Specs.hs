@@ -35,3 +35,10 @@ main = hspec $ do
 
         it "should detect the best High Card when the list contains a High Card" $ do
             hand (cards "4h Td 3c Ks Qd 8s 6s") `shouldBe` HighCard [King, Queen, Ten, Eight, Six]
+
+    describe "the score function" $ do
+        it "should compute hands from a list of sets of cards and tag the winner" $ do
+            let player1 = cards "4h Td 3c Ks Qd 8s"
+                player2 = cards "4h Td 3c Ks Qd 8s 6s"
+            score [player1, player2] `shouldBe` [(Fold,False),(HighCard [King, Queen, Ten, Eight, Six], True)]
+

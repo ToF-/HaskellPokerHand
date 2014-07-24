@@ -49,9 +49,17 @@ value (Card v s) = v
 
 data Hand = Fold
           | HighCard [Value]
-    deriving (Eq, Show)
+    deriving (Eq, Show, Ord)
 
 hand :: [Card] -> Hand
 hand cs | length cs < 7 = Fold
         | otherwise = HighCard (map value (take 5 (reverse (sort cs))))
 
+type Score = (Hand, Bool)
+
+score :: [[Card]] -> [Score]
+score ps = let
+    hands = map hand ps
+    best  = maximum hands
+    score h = (h, h == best)
+    in map score hands
