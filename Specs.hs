@@ -47,6 +47,10 @@ main = hspec $ do
                 player2 = cards "4h Td 3c Ks Qd 8s 6s"
             map snd (score [player1, player2]) `shouldBe` [True, True]
 
+        it "should tag no winner when all players fold" $ do
+            let player1 = cards "4h Td 3c Ks Qd 8s"
+                player2 = cards "4h Td 3c Ks Qd 8s"
+            map snd (score [player1, player2]) `shouldBe` [False, False]
 
             
 

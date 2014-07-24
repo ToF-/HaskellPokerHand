@@ -61,5 +61,5 @@ score :: [[Card]] -> [Score]
 score ps = let
     hands = map hand ps
     best  = maximum hands
-    score h = (h, h == best)
+    score h = (h, h == best && best /= Fold)
     in map score hands
