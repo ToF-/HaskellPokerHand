@@ -13,6 +13,9 @@ data Card  = Card Value Suit
 card :: String -> Card
 card ['K',s] = Card King (suitFromString s)
 card "Ah" = Card Ace Heart
+
+cards :: String -> [Card]
+cards = (map card) . words
     
 suitFromString :: Char -> Suit
 suitFromString 'h' = Heart

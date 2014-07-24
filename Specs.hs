@@ -10,5 +10,5 @@ main = hspec $ do
             card "Ah" `shouldBe` Card Ace Heart
 
         it "should have a one of four distinct suits" $ do
-            length (nub (map (suit.card) (words "Kh Ks Kd Kc")))
+            length (nub (cards "Kh Ks Kd Kc"))
                 `shouldBe` 4
