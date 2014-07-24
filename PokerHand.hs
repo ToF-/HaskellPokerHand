@@ -1,7 +1,8 @@
 module PokerHand
 where
 
-data Value = King | Ace
+data Value = Two | Three | Four | Five | Six | Seven | Eight | Nine
+           | Ten | Jack | Queen | King | Ace
     deriving (Show, Eq)
 
 data Suit  = Heart | Spade | Diamond | Clover
@@ -11,8 +12,22 @@ data Card  = Card Value Suit
     deriving (Show, Eq)
 
 card :: String -> Card
-card ['K',s] = Card King (suitFromString s)
-card "Ah" = Card Ace Heart
+card [v,s] = Card (valueFromString v) (suitFromString s)
+
+valueFromString :: Char -> Value
+valueFromString '2' = Two
+valueFromString '3' = Three
+valueFromString '4' = Four
+valueFromString '5' = Five
+valueFromString '6' = Six
+valueFromString '7' = Seven
+valueFromString '8' = Eight
+valueFromString '9' = Nine
+valueFromString 'T' = Ten
+valueFromString 'J' = Jack
+valueFromString 'Q' = Queen
+valueFromString 'K' = King
+valueFromString 'A' = Ace
 
 cards :: String -> [Card]
 cards = (map card) . words
