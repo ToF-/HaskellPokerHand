@@ -28,3 +28,7 @@ main = hspec $ do
 
         it "should compare same values on different suit as equal" $ do
             compare (card "Ts") (card "Th") `shouldBe` EQ
+
+    describe "the hand function" $ do
+        it "should detect that a player folded when the list contains less than 7 cards" $ do
+            hand (cards "4h Td 3c Ks Qd 8s") `shouldBe` Fold 

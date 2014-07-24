@@ -42,3 +42,9 @@ suitFromChar 'c' = Clover
 
 suit :: Card -> Suit
 suit (Card _ s) = s
+
+data Hand = Fold
+    deriving (Eq, Show)
+
+hand :: [Card] -> Hand
+hand _ = Fold

@@ -23,20 +23,20 @@ where
 isStrictlyOrdered [x]      = True
 isStrictlyOrdered (x:y:xs) = x < y && isStrictlyOrdered (y:xs)
 
-Second question: to extract the best hand from a list of cards, if the program only recognize High Cards, we have to sort the list of by card value, in descending order, and take the 5 first cards. If we have less than 5 cards in the list, we denote this list as a NotAHand value. If we have 5 cards, it's a HighCard, and we can take the 5 card values as the ranking value of the High Card.
+Second question: to extract the best hand from a list of cards, if the program only recognize High Cards, we have to sort the list of by card value, in descending order, and take the 5 first cards. If we have less than 7 cards in the list, we denote this list as a Fold value. If we have 5 cards, it's a HighCard, and we can take the 5 card values as the ranking value of the High Card.
 
 e.g 
 given the line "Ks 3d 5d Js 2h Th 8h" our program would extract a High Card [King,Ten,Eight,Five,Three] 
 
-given the line "Ks 3d 5d Js 2h Th" our program would extract a NotAHand value. 
+given the line "Ks 3d 5d Js 2h Th" our program would extract a Fold value. 
 
 Question #3: to display the initial entry along with the hand and the winner tag, we must first find the maximum from the list of all the hands extracted from the lines. 
-Then we compare each hand with the maximum: if the hand value is not NotAHand *and* the hand value equals the maximum then the winner tag is set.
+Then we compare each hand with the maximum: if the hand value is not Fold *and* the hand value equals the maximum then the winner tag is set.
 
 Once this is done, we zip the hands list with the winner tags list with a special display function:
 
 display :: Hand -> Bool -> String
-display NotAHand _     = ""
+display Fold _     = ""
 display hand     False = " " ++ (show hand)
 display hand     True  = " " ++ (show hand) ++ " (winner)"
 
