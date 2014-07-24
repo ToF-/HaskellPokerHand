@@ -3,13 +3,15 @@ where
 
 data Value = Two | Three | Four | Five | Six | Seven | Eight | Nine
            | Ten | Jack | Queen | King | Ace
-    deriving (Show, Eq)
+    deriving (Show, Eq, Ord)
 
 data Suit  = Heart | Spade | Diamond | Clover
     deriving (Show, Eq)
+instance Ord Suit
+    where compare _ _ = EQ
 
 data Card  = Card Value Suit
-    deriving (Show, Eq)
+    deriving (Show, Eq, Ord)
 
 card :: String -> Card
 card [v,s] = Card (valueFromChar v) (suitFromChar s)
