@@ -12,31 +12,31 @@ data Card  = Card Value Suit
     deriving (Show, Eq)
 
 card :: String -> Card
-card [v,s] = Card (valueFromString v) (suitFromString s)
+card [v,s] = Card (valueFromChar v) (suitFromChar s)
 
-valueFromString :: Char -> Value
-valueFromString '2' = Two
-valueFromString '3' = Three
-valueFromString '4' = Four
-valueFromString '5' = Five
-valueFromString '6' = Six
-valueFromString '7' = Seven
-valueFromString '8' = Eight
-valueFromString '9' = Nine
-valueFromString 'T' = Ten
-valueFromString 'J' = Jack
-valueFromString 'Q' = Queen
-valueFromString 'K' = King
-valueFromString 'A' = Ace
+valueFromChar :: Char -> Value
+valueFromChar '2' = Two
+valueFromChar '3' = Three
+valueFromChar '4' = Four
+valueFromChar '5' = Five
+valueFromChar '6' = Six
+valueFromChar '7' = Seven
+valueFromChar '8' = Eight
+valueFromChar '9' = Nine
+valueFromChar 'T' = Ten
+valueFromChar 'J' = Jack
+valueFromChar 'Q' = Queen
+valueFromChar 'K' = King
+valueFromChar 'A' = Ace
 
 cards :: String -> [Card]
 cards = (map card) . words
     
-suitFromString :: Char -> Suit
-suitFromString 'h' = Heart
-suitFromString 's' = Spade
-suitFromString 'd' = Diamond
-suitFromString 'c' = Clover
+suitFromChar :: Char -> Suit
+suitFromChar 'h' = Heart
+suitFromChar 's' = Spade
+suitFromChar 'd' = Diamond
+suitFromChar 'c' = Clover
 
 
 
