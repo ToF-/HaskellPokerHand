@@ -1,5 +1,6 @@
 module PokerHand
 where
+import Data.List
 
 data Value = Two | Three | Four | Five | Six | Seven | Eight | Nine
            | Ten | Jack | Queen | King | Ace
@@ -43,8 +44,14 @@ suitFromChar 'c' = Clover
 suit :: Card -> Suit
 suit (Card _ s) = s
 
+value :: Card -> Value
+value (Card v s) = v
+
 data Hand = Fold
+          | HighCard [Value]
     deriving (Eq, Show)
 
 hand :: [Card] -> Hand
-hand _ = Fold
+hand cs | length cs < 7 = Fold
+        | otherwise = HighCard (map value (take 5 (reverse (sort cs))))
+

@@ -32,3 +32,6 @@ main = hspec $ do
     describe "the hand function" $ do
         it "should detect that a player folded when the list contains less than 7 cards" $ do
             hand (cards "4h Td 3c Ks Qd 8s") `shouldBe` Fold 
+
+        it "should detect the best High Card when the list contains a High Card" $ do
+            hand (cards "4h Td 3c Ks Qd 8s 6s") `shouldBe` HighCard [King, Queen, Ten, Eight, Six]
