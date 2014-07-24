@@ -52,16 +52,17 @@ data Hand = Fold
           | Flush [Value]
     deriving (Eq, Ord)
 instance Show Hand
-    where show Fold = ""
+    where show Fold = "Fold"
           show (HighCard _) = "High Card"
           show (Flush _)    = "Flush"
 
 hand :: [Card] -> Hand
 hand cs | length cs < 7 = Fold
-        | otherwise = maximum (map rank (groupsOf5 (reverse (sort cs))))
+        | otherwise     = maximum allHands
+    where allHands = map rank $ allGroups $ reverse $ sort cs
 
-groupsOf5 :: [Card] -> [[Card]]
-groupsOf5 = filter (\cs -> length cs == 5) . subsequences
+allGroups :: [a] -> [[a]]
+allGroups = filter ((==5).length) . subsequences
 
 rank :: [Card] -> Hand 
 rank cs | isFlush cs = Flush (map value cs)
@@ -85,5 +86,9 @@ displayScore s =
         ls = lines s
         hs = map cards ls
         ss = score hs
-        display s (h, w) = s ++ " " ++ show h ++ if w then " (winner)" else ""
+        showHand Fold = ""
+        showHand h    = " " ++ show h
+        showWinner False = ""
+        showWinner True  = " (winner)" 
+        display s (h, w) = s ++ showHand h ++ showWinner w
     in unlines $ zipWith display ls ss
