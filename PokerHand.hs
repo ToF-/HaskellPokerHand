@@ -63,3 +63,14 @@ score ps = let
     best  = maximum hands
     score h = (h, h == best && best /= Fold)
     in map score hands
+
+displayScore :: String -> String
+displayScore s =
+    let
+        ls = lines s
+        hs = map cards ls
+        ss = score hs
+        display s (Fold, False) = s
+        display s (HighCard _, False) = s ++ " High Card"
+        display s (HighCard _, True)  = s ++ " High Card (winner)"
+    in unlines $ zipWith display ls ss
