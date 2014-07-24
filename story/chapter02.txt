@@ -1,0 +1,18 @@
+That was fast. 
+
+Now we can solve the different problems of finding the best hand. 
+What is slightly better than a High Card is a Flush. You have a Flush when all the cards in your hand have the same suit.
+To find a Suit in a group of 7 cards, selecting the 5 higher cards is no longer a strategy.
+We have to first a) select all subsequences of lenght 5 from that group, and b) rank all those subsequence according to the High Card or Flush rules.
+
+filter ((==5).length) subsequences
+
+will do the trick a)
+
+and b) will be done with
+
+flush (c:cs) = all (\x -> suit x == suit c) cs 
+
+if the group is not a Flush, then it's a High Card
+
+we still have to sort the cards in order to get the best Flush ranking

@@ -36,6 +36,9 @@ main = hspec $ do
         it "should detect the best High Card when the list contains a High Card" $ do
             hand (cards "4h Td 3c Ks Qd 8s 6s") `shouldBe` HighCard [King, Queen, Ten, Eight, Six]
 
+        it "should detect the best Fush when the list contains a flush" $ do
+            hand (cards "4h Th 3d Kh Qh 8d 6h") `shouldBe` Flush [King, Queen, Ten, Six, Four]
+
     describe "the score function" $ do
         it "should compute hands from a list of sets of cards and tag the winner" $ do
             let player1 = cards "4h Td 3c Ks Qd 8s"

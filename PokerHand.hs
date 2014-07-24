@@ -49,14 +49,26 @@ value (Card v s) = v
 
 data Hand = Fold
           | HighCard [Value]
+          | Flush [Value]
     deriving (Eq, Ord)
 instance Show Hand
     where show Fold = ""
           show (HighCard _) = "High Card"
+          show (Flush _)    = "Flush"
 
 hand :: [Card] -> Hand
 hand cs | length cs < 7 = Fold
-        | otherwise = HighCard (map value (take 5 (reverse (sort cs))))
+        | otherwise = maximum (map rank (groupsOf5 (reverse (sort cs))))
+
+groupsOf5 :: [Card] -> [[Card]]
+groupsOf5 = filter (\cs -> length cs == 5) . subsequences
+
+rank :: [Card] -> Hand 
+rank cs | isFlush cs = Flush (map value cs)
+        | otherwise  = HighCard (map value cs)
+ 
+isFlush :: [Card] -> Bool
+isFlush (c:cs) = all (\x -> suit x == suit c) cs
 
 type Score = (Hand, Bool)
 
