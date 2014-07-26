@@ -60,11 +60,14 @@ bestHand cs | length cs < 7 = Fold
                allHands .
                reverse . sortBy (comparing rank)
         
+        allHands :: [Card] -> [[Card]]
         allHands = filter ((==5).length) . subsequences 
         
+        ranking :: [Card] -> Hand
         ranking cs | isFlush cs = Flush (map rank cs)
                    | otherwise  = HighCard (map rank cs)
  
+        isFlush :: [Card] -> Bool
         isFlush (c:cs) = all (\x -> suit x == suit c) cs
 
 type Score = (Hand, Bool)
