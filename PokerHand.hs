@@ -2,92 +2,86 @@ module PokerHand
 where
 import Data.List
 
-data Value = Two | Three | Four | Five | Six | Seven | Eight | Nine
-           | Ten | Jack | Queen | King | Ace
+data Rank = Two | Three | Four | Five | Six | Seven | Eight | Nine
+          | Ten | Jack | Queen | King | Ace
     deriving (Show, Eq, Ord)
 
-data Suit  = Heart | Spade | Diamond | Clover
+data Suit  = Hearts | Spades | Diamonds | Clubs
     deriving (Show, Eq)
 instance Ord Suit
     where compare _ _ = EQ
 
-data Card  = Card Value Suit
+data Card  = Card { rank::Rank, suit::Suit }
     deriving (Show, Eq, Ord)
 
 card :: String -> Card
-card [v,s] = Card (valueFromChar v) (suitFromChar s)
+card [v,s] = Card (rankFromChar v) (suitFromChar s)
 
-valueFromChar :: Char -> Value
-valueFromChar '2' = Two
-valueFromChar '3' = Three
-valueFromChar '4' = Four
-valueFromChar '5' = Five
-valueFromChar '6' = Six
-valueFromChar '7' = Seven
-valueFromChar '8' = Eight
-valueFromChar '9' = Nine
-valueFromChar 'T' = Ten
-valueFromChar 'J' = Jack
-valueFromChar 'Q' = Queen
-valueFromChar 'K' = King
-valueFromChar 'A' = Ace
+rankFromChar :: Char -> Rank
+rankFromChar '2' = Two
+rankFromChar '3' = Three
+rankFromChar '4' = Four
+rankFromChar '5' = Five
+rankFromChar '6' = Six
+rankFromChar '7' = Seven
+rankFromChar '8' = Eight
+rankFromChar '9' = Nine
+rankFromChar 'T' = Ten
+rankFromChar 'J' = Jack
+rankFromChar 'Q' = Queen
+rankFromChar 'K' = King
+rankFromChar 'A' = Ace
 
 cards :: String -> [Card]
 cards = (map card) . words
     
 suitFromChar :: Char -> Suit
-suitFromChar 'h' = Heart
-suitFromChar 's' = Spade
-suitFromChar 'd' = Diamond
-suitFromChar 'c' = Clover
-
-suit :: Card -> Suit
-suit (Card _ s) = s
-
-value :: Card -> Value
-value (Card v s) = v
+suitFromChar 'h' = Hearts
+suitFromChar 's' = Spades
+suitFromChar 'd' = Diamonds
+suitFromChar 'c' = Clubs
 
 data Hand = Fold
-          | HighCard [Value]
-          | Flush [Value]
+          | HighCard [Rank]
+          | Flush [Rank]
     deriving (Eq, Ord)
+
 instance Show Hand
     where show Fold = "Fold"
           show (HighCard _) = "High Card"
           show (Flush _)    = "Flush"
 
-hand :: [Card] -> Hand
-hand cs | length cs < 7 = Fold
-        | otherwise     = bestHand cs
-
-bestHand :: [Card] -> Hand
-bestHand = maximum . 
-           map rank .
-           filter ((==5).length) . subsequences .
-           reverse . sort 
-
-rank :: [Card] -> Hand 
-rank cs | isFlush cs = Flush (map value cs)
-        | otherwise  = HighCard (map value cs)
+bestHand :: [Card] -> Hand
+bestHand cs | length cs < 7 = Fold
+            | otherwise     = best cs
+    where 
+        best = maximum . 
+               map ranking .
+               allHands .
+               reverse . sort 
+        
+        allHands = filter ((==5).length) . subsequences 
+        
+        ranking cs | isFlush cs = Flush (map rank cs)
+                   | otherwise  = HighCard (map rank cs)
  
-isFlush :: [Card] -> Bool
-isFlush (c:cs) = all (\x -> suit x == suit c) cs
+        isFlush (c:cs) = all (\x -> suit x == suit c) cs
 
 type Score = (Hand, Bool)
 
-score :: [[Card]] -> [Score]
-score ps = let
-    hands = map hand ps
-    best  = maximum hands
-    score h = (h, h == best && best /= Fold)
-    in map score hands
+scores :: [[Card]] -> [Score]
+scores ps = map score hands
+    where
+        score h = (h, h == best && best /= Fold)
+        hands = map bestHand ps
+        best  = maximum hands
 
-displayScore :: String -> String
-displayScore s =
+displayScores :: String -> String
+displayScores s =
     let
         ls = lines s
         hs = map cards ls
-        ss = score hs
+        ss = scores hs
         showHand Fold = ""
         showHand h    = " " ++ show h
         showWinner False = ""
