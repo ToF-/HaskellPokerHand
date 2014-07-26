@@ -76,14 +76,11 @@ scores ps = map score hands
         best  = maximum hands
 
 displayScores :: String -> String
-displayScores s =
-    let
-        ls = lines s
-        hs = map cards ls
-        ss = scores hs
+displayScores = unlines . displayScores' . lines
+    where 
+        displayScores' l = zipWith display l (scores (map cards l))
+
+        display s (h,w) = s ++ showHand h ++ if w then " (winner)" else ""
+
         showHand Fold = ""
         showHand h    = " " ++ show h
-        showWinner False = ""
-        showWinner True  = " (winner)" 
-        display s (h, w) = s ++ showHand h ++ showWinner w
-    in unlines $ zipWith display ls ss
