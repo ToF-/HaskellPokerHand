@@ -1,6 +1,7 @@
 module PokerHand
 where
-import Data.List
+import Data.List (sortBy, subsequences)
+import Data.Ord (comparing)
 
 data Rank = Two | Three | Four | Five | Six | Seven | Eight | Nine
           | Ten | Jack | Queen | King | Ace
@@ -8,11 +9,9 @@ data Rank = Two | Three | Four | Five | Six | Seven | Eight | Nine
 
 data Suit  = Hearts | Spades | Diamonds | Clubs
     deriving (Show, Eq)
-instance Ord Suit
-    where compare _ _ = EQ
 
 data Card  = Card { rank::Rank, suit::Suit }
-    deriving (Show, Eq, Ord)
+    deriving (Show, Eq)
 
 card :: String -> Card
 card [v,s] = Card (rankFromChar v) (suitFromChar s)
@@ -58,7 +57,7 @@ bestHand cs | length cs < 7 = Fold
         best = maximum . 
                map ranking .
                allHands .
-               reverse . sort 
+               reverse . sortBy (comparing rank)
         
         allHands = filter ((==5).length) . subsequences 
         

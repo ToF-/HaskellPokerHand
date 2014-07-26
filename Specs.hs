@@ -18,13 +18,10 @@ main = hspec $ do
             length (nub (cards deck)) `shouldBe` 13
 
         it "should be stricly ordered within a same suit" $ do
-            let set = cards "2h 3h 4h 5h 6h 7h 8h 9h Th Jh Qh Kh Ah"
+            let set = map rank $ cards "2h 3h 4h 5h 6h 7h 8h 9h Th Jh Qh Kh Ah"
                 isOrdered [x] = True
                 isOrdered (x:y:xs) = x < y && isOrdered (y:xs)
             isOrdered set `shouldBe` True
-
-        it "should compare same values on different suit as equal" $ do
-            compare (card "Ts") (card "Th") `shouldBe` EQ
 
     describe "the bestHand function" $ do
         it "should detect that a player folded when the list contains less than 7 cards" $ do
