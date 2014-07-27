@@ -58,8 +58,7 @@ bestHand cs | length cs < 7 = Fold
             | otherwise     = best cs
     where 
         best = maximum . 
-               map ranking .
-               map groups . 
+               map groupAndRank .
                allHands .
                sortBy (flip (comparing rank))
         
@@ -68,6 +67,9 @@ bestHand cs | length cs < 7 = Fold
 
         ranks :: [Card] -> [Rank] 
         ranks = map rank
+
+        groupAndRank :: [Card] -> Hand
+        groupAndRank = ranking . groups
         
         ranking :: [[Card]] -> Hand
         ranking [[a],[b],[c],[d],[e]]  | isFlush [a,b,c,d,e] = Flush $ ranks [a,b,c,d,e]
