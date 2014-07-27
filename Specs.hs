@@ -33,6 +33,9 @@ main = hspec $ do
         it "should detect the best Fush when the list contains a flush" $ do
             bestHand (cards "4h Th 3d Kh Qh 8d 6h") `shouldBe` Flush [King, Queen, Ten, Six, Four]
 
+        it "should detect a pair when the list contains a pair" $ do
+            bestHand (cards "4c Th 4d Kh Qh 8d 6h") `shouldBe` Pair [Four, Four, King, Queen, Ten]
+
     describe "the scores function" $ do
         it "should compute hands from a list of sets of cards and tag the winner" $ do
             let player1 = cards "4h Td 3c Ks Qd 8s"
