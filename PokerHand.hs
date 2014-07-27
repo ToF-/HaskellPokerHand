@@ -69,8 +69,13 @@ bestHand cs | length cs < 7 = Fold
                                        | otherwise  = HighCard (map rank cs)
                                             where cs = [a,b,c,d,e]
         groups :: [Card] -> [[Card]]
-        groups cs = groupBy (same rank) cs
-        
+        groups cs = sortBy groupSort $ groupBy (same rank) $ sortBy (flip (comparing rank)) cs
+
+        groupSort :: [Card] -> [Card] -> Ordering
+        groupSort g h | length g < length h = GT 
+                      | length g > length h = LT 
+                      | otherwise           = flip (comparing (rank . head)) g h
+
         same :: Eq(b) => (a -> b) -> a -> a -> Bool
         same f x y = f x == f y 
  
