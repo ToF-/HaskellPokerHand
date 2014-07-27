@@ -9,9 +9,10 @@ type Score = (Kind, Bool)
 scores :: [[Card]] -> [Score]
 scores ps = map score rankings
     where
-        score r = (kind r, r == best && (kind best) /= Fold)
+        score r = (kind r, thereIsABest && r == best)
         rankings = map bestRanking ps
         best  = maximum rankings
+        thereIsABest = Fold /= kind best
 
 displayScores :: String -> String
 displayScores = unlines . displayScores' . lines
