@@ -11,14 +11,7 @@ data Ranking = Fold
           | Pair [Rank]
           | ThreeOfAKind [Rank]
           | Flush [Rank]
-    deriving (Eq, Ord)
-
-instance Show Ranking
-    where show Fold = "Fold"
-          show (HighCard _) = "High Card"
-          show (Flush _)    = "Flush"
-          show (Pair _)     = "Pair"
-          show (ThreeOfAKind _) = "Three Of A Kind"
+    deriving (Eq, Ord, Show)
 
 bestRanking :: [Card] -> Ranking
 bestRanking cs | length cs < 7 = Fold

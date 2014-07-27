@@ -20,5 +20,7 @@ displayScores = unlines . displayScores' . lines
         display s (h,w) = s ++ showRanking h ++ if w then " (winner)" else ""
 
         showRanking Fold = ""
-        showRanking h    = " " ++ show h
-
+        showRanking (HighCard _) = " " ++ "High Card"
+        showRanking (Pair    _)  = " " ++ "Pair"
+        showRanking (ThreeOfAKind _)  = " " ++ "Three Of A Kind"
+        showRanking (Flush  _)   = " " ++ "Flush"
