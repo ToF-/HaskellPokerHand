@@ -58,7 +58,7 @@ bestHand cs | length cs < 7 = Fold
         best = maximum . 
                map ranking .
                allHands .
-               reverse . sortBy (comparing rank)
+               sortBy (flip (comparing rank))
         
         allHands :: [Card] -> [[Card]]
         allHands = filter ((==5).length) . subsequences 
