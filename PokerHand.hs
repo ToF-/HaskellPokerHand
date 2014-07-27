@@ -44,6 +44,7 @@ cards = (map card) . words
 data Hand = Fold
           | HighCard [Rank]
           | Pair [Rank]
+          | ThreeOfAKind [Rank]
           | Flush [Rank]
     deriving (Eq, Ord)
 
@@ -69,7 +70,11 @@ bestHand cs | length cs < 7 = Fold
         ranking [[a],[b],[c],[d],[e]]  | isFlush cs = Flush (map rank cs)
                                        | otherwise  = HighCard (map rank cs)
                                             where cs = [a,b,c,d,e]
+    
         ranking [[a,b],[c],[d],[e]]    = Pair (map rank cs) 
+                                            where cs = [a,b,c,d,e]
+        
+        ranking [[a,b,c],[d],[e]]      = ThreeOfAKind  (map rank cs) 
                                             where cs = [a,b,c,d,e]
         groups :: [Card] -> [[Card]]
         groups cs = sortBy groupSort $ groupBy (same rank) $ sortBy (comparing rank) cs
