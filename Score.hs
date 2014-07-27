@@ -2,15 +2,16 @@ module Score
 where
 import Card
 import Ranking
+import Data.List
 
-type Score = (Ranking, Bool)
+type Score = (Kind, Bool)
 
 scores :: [[Card]] -> [Score]
-scores ps = map score hands
+scores ps = map score rankings
     where
-        score h = (h, h == best && best /= Fold)
-        hands = map bestRanking ps
-        best  = maximum hands
+        score r = (kind r, r == best && (kind best) /= Fold)
+        rankings = map bestRanking ps
+        best  = maximum rankings
 
 displayScores :: String -> String
 displayScores = unlines . displayScores' . lines
@@ -20,7 +21,7 @@ displayScores = unlines . displayScores' . lines
         display s (h,w) = s ++ showRanking h ++ if w then " (winner)" else ""
 
         showRanking Fold = ""
-        showRanking (HighCard _) = " " ++ "High Card"
-        showRanking (Pair    _)  = " " ++ "Pair"
-        showRanking (ThreeOfAKind _)  = " " ++ "Three Of A Kind"
-        showRanking (Flush  _)   = " " ++ "Flush"
+        showRanking HighCard  = " " ++ "High Card"
+        showRanking Pair      = " " ++ "Pair"
+        showRanking ThreeOfAKind   = " " ++ "Three Of A Kind"
+        showRanking Flush     = " " ++ "Flush"

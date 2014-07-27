@@ -28,25 +28,25 @@ main = hspec $ do
 
     describe "the bestRanking function" $ do
         it "should detect that a player folded when the list contains less than 7 cards" $ do
-            bestRanking (cards "4h Td 3c Ks Qd 8s") `shouldBe` Fold 
+            kind (bestRanking (cards "4h Td 3c Ks Qd 8s")) `shouldBe` Fold 
 
         it "should detect the best High Card when the list contains a High Card" $ do
-            bestRanking (cards "4h Td 3c Ks Qd 8s 6s") `shouldBe` HighCard [King, Queen, Ten, Eight, Six]
+            bestRanking (cards "4h Td 3c Ks Qd 8s 6s") `shouldBe` Ranking HighCard [King, Queen, Ten, Eight, Six]
 
         it "should detect the best Fush when the list contains a flush" $ do
-            bestRanking (cards "4h Th 3d Kh Qh 8d 6h") `shouldBe` Flush [King, Queen, Ten, Six, Four]
+            bestRanking (cards "4h Th 3d Kh Qh 8d 6h") `shouldBe` Ranking Flush [King, Queen, Ten, Six, Four]
 
         it "should detect a pair when the list contains only two cards with same rank and no flush" $ do
-            bestRanking (cards "4c Th 4d Kh Qh 8d 6h") `shouldBe` Pair [Four, Four, King, Queen, Ten]
+            bestRanking (cards "4c Th 4d Kh Qh 8d 6h") `shouldBe` Ranking Pair [Four, Four, King, Queen, Ten]
 
         it "shoud detect Three of a kind when the list contains only three cards with same rank and no flush" $ do
-            bestRanking (cards "4c Th 4d Kh Qh 4s 6h") `shouldBe` ThreeOfAKind [Four, Four, Four, King, Queen] 
+            bestRanking (cards "4c Th 4d Kh Qh 4s 6h") `shouldBe` Ranking ThreeOfAKind [Four, Four, Four, King, Queen] 
 
     describe "the scores function" $ do
         it "should compute hands from a list of sets of cards and tag the winner" $ do
             let player1 = cards "4h Td 3c Ks Qd 8s"
                 player2 = cards "4h Td 3c Ks Qd 8s 6s"
-            scores [player1, player2] `shouldBe` [(Fold,False),(HighCard [King, Queen, Ten, Eight, Six], True)]
+            map snd (scores [player1, player2]) `shouldBe` [False, True]
         
         it "should tag several winners for several best ranking of hands" $ do
             let player1 = cards "4h Td 3c Ks Qd 8s 6s"

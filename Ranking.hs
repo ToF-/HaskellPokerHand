@@ -6,15 +6,14 @@ import Card
 
 type Hand = [Card]
 
-data Ranking = Fold
-          | HighCard [Rank]
-          | Pair [Rank]
-          | ThreeOfAKind [Rank]
-          | Flush [Rank]
+data Kind = Fold | HighCard | Pair | ThreeOfAKind | Flush
+    deriving (Eq, Ord,Show)
+
+data Ranking = Ranking { kind :: Kind, ranks :: [Rank] }
     deriving (Eq, Ord, Show)
 
 bestRanking :: [Card] -> Ranking
-bestRanking cs | length cs < 7 = Fold
+bestRanking cs | length cs < 7 = Ranking Fold []
             | otherwise     = best cs
     where 
         best = maximum . 
@@ -35,12 +34,12 @@ bestRanking cs | length cs < 7 = Fold
             ranks = map rank h
      
             ranking :: [Hand] -> Ranking
-            ranking [[a],[b],[c],[d],[e]]  | isFlush [a,b,c,d,e] = Flush ranks
-                                       | otherwise  = HighCard ranks 
+            ranking [[a],[b],[c],[d],[e]]  | isFlush [a,b,c,d,e] = Ranking Flush ranks
+                                           | otherwise  = Ranking HighCard ranks 
     
-            ranking [[a,b],[c],[d],[e]]    = Pair $ map rank [a,b,c,d,e]
+            ranking [[a,b],[c],[d],[e]]    = Ranking Pair $ map rank [a,b,c,d,e]
         
-            ranking [[a,b,c],[d],[e]]      = ThreeOfAKind $ map rank [a,b,c,d,e]
+            ranking [[a,b,c],[d],[e]]      = Ranking ThreeOfAKind $ map rank [a,b,c,d,e]
 
             groups :: Hand -> [[Card]]
             groups = sortBy groupSort . groupBy (same rank) . sortBy (comparing rank)
