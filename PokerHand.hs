@@ -1,6 +1,6 @@
 module PokerHand
 where
-import Data.List (sortBy, subsequences)
+import Data.List (sortBy, subsequences, groupBy)
 import Data.Ord (comparing)
 
 data Rank = Two | Three | Four | Five | Six | Seven | Eight | Nine
@@ -57,15 +57,22 @@ bestHand cs | length cs < 7 = Fold
     where 
         best = maximum . 
                map ranking .
+               map groups . 
                allHands .
                sortBy (flip (comparing rank))
         
         allHands :: [Card] -> [[Card]]
         allHands = filter ((==5).length) . subsequences 
         
-        ranking :: [Card] -> Hand
-        ranking cs | isFlush cs = Flush (map rank cs)
-                   | otherwise  = HighCard (map rank cs)
+        ranking :: [[Card]] -> Hand
+        ranking [[a],[b],[c],[d],[e]]  | isFlush cs = Flush (map rank cs)
+                                       | otherwise  = HighCard (map rank cs)
+                                            where cs = [a,b,c,d,e]
+        groups :: [Card] -> [[Card]]
+        groups cs = groupBy (same rank) cs
+        
+        same :: Eq(b) => (a -> b) -> a -> a -> Bool
+        same f x y = f x == f y 
  
         isFlush :: [Card] -> Bool
         isFlush (c:cs) = all (\x -> suit x == suit c) cs
