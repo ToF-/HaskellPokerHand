@@ -1,8 +1,9 @@
 import Test.Hspec
 import Card
-import PokerHand
-import Data.List
+import Ranking
+import Score
 
+import Data.List
 
 main :: IO ()
 main = hspec $ do
