@@ -65,17 +65,18 @@ bestHand cs | length cs < 7 = Fold
         
         allHands :: [Card] -> [[Card]]
         allHands = filter ((==5).length) . subsequences 
+
+        ranks :: [Card] -> [Rank] 
+        ranks = map rank
         
         ranking :: [[Card]] -> Hand
-        ranking [[a],[b],[c],[d],[e]]  | isFlush cs = Flush (map rank cs)
-                                       | otherwise  = HighCard (map rank cs)
-                                            where cs = [a,b,c,d,e]
+        ranking [[a],[b],[c],[d],[e]]  | isFlush [a,b,c,d,e] = Flush $ ranks [a,b,c,d,e]
+                                       | otherwise  = HighCard $ ranks [a,b,c,d,e]
     
-        ranking [[a,b],[c],[d],[e]]    = Pair (map rank cs) 
-                                            where cs = [a,b,c,d,e]
+        ranking [[a,b],[c],[d],[e]]    = Pair $ ranks [a,b,c,d,e]
         
-        ranking [[a,b,c],[d],[e]]      = ThreeOfAKind  (map rank cs) 
-                                            where cs = [a,b,c,d,e]
+        ranking [[a,b,c],[d],[e]]      = ThreeOfAKind  $ ranks [a,b,c,d,e]
+
         groups :: [Card] -> [[Card]]
         groups cs = sortBy groupSort $ groupBy (same rank) $ sortBy (comparing rank) cs
 
