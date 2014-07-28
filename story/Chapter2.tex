@@ -22,6 +22,18 @@ computeScores = unlines . mystery . lines
 \end{lstlisting}
 \lhN Your function breaks the input data into separate lines, processes all those line through a mysterious function, then assemble the result into a single output block of text. Why the name \il!mystery! ?  
 \lhA That's because I don't know what function I should write yet.
+\lhN Let's try to specify it, then. What is the information we have about the function so far?
+\lhA It consumes entry lines and yields those same lines with some score info added. So both input and output type are lists of \il!String!s. 
+\begin{lstlisting}[frame=single] 
+mystery :: [String] -> [String]
+\end{lstlisting}
+\lhN How would you describe a score?
+\lhA It's the combination of either the kind of hand the player made, or nothing if the player folded, and value denoting if that hand is the winner of the game or not. Also there can be more than one winner.
+\lhN How would write the type \il!Score!?
+\lhA
+\begin{lstlisting}[frame=single] 
+type Score = (Maybe Kind, Bool)
+\end{lstlisting}
 
 \lhend
 
