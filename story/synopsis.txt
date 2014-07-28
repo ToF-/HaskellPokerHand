@@ -1,0 +1,93 @@
+Q:If we described the required program as one function what would be the name and type of this function?
+A: process :: Input -> Output
+Q: Why such a name?
+A: Because we process the input and output a result.: Those types are equivalent of String.
+Q: What would be a first decomposition of this process?
+A: Hmmm. Processing each line of the input, and output the corresponding score. 
+Q: What would be a function that would do that?
+A: showScores :: [Entry] -> [Line]
+Q: What are Entry and Line?
+A: They are type equivalences for String.
+Q: What is a Score?
+A: It's a combination of either the kind of hand the player made, or nothing if the player folded, and a flag denoting if that hand is the winner of the game or not. There can be more than one winner.
+Q: How would you write the type Score?
+A: I think I would describe as 
+type Score = (Maybe Kind, Bool)
+and have a 
+showScore :: Score -> Line 
+function display the kind of hand and the winner tag.
+Q: What would be needed to create a Score?
+A: We would need two information:
+- the ranking of the hand played, or Nothing if the player folded
+- the best ranking, i.e. the maximum value of a list of the rankings of all the players in the game
+Q: So we need the lists of rankings to compute the scores. Can you describe the function scores?
+A: scores :: [Ranking] -> [Score]
+Q: How would you describe a Ranking type?
+A: The Ranking type describes the value of a Hand. It's expressed in terms of kind and rank. 
+Q: Can you give examples?
+A: yes
+- Ranking FourOfAKind [Three, Three, Three, Three, Five]
+This ranking is of a Four of A Kind of rank 3, with Kicker being a 5.
+- Ranking Pair [Queen, Queen, Ten, Six, Five]
+This is a pair of queens, followed by a 10, a 6 and a 5
+- Flush [Ten, Seven, Five, Four, Two]
+This one is a flush
+- Straight [Five, Four, Three, Two, Ace] 
+This one is a Straight from 5 to 1, Ace being low here.
+- RoyalFlush
+This one is the higher ranking you can make
+- HighCard [King, Ten, Five, Four, Two] 
+This one is a simple high card, starting with King.
+Q: What are FourOfAKind, Pair, Straight, etc?
+A: They are values of type Kind
+data Kind = HighCard | Pair | TwoPair | ThreeOfAKind | Straight | Flush | FullHouse | FourOfAKind | StraightFlush | RoyalFlush
+These values are ordered from lower to higher.
+Q: What are King, Ten, Eight, etc?
+A: There are values of type Rank
+data Rank = Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten | Jack | Queen | King | Ace 
+These values are also ordered
+Q: Can you describe the Ranking type?
+A: data Ranking = Ranking Kind [Rank]
+Q: What is needed to compute a Ranking ?
+A: We always compute the ranking from a hand, just like we compute the square of an integer.
+Q: Can you describe the function?
+A: ranking :: Hand -> Ranking
+Q: What is a Hand?
+A: It's a list of 5 and exactly 5 cards.
+type Hand = [Card]
+Q: What is a Card?
+A: It's a value combining a Rank and a Suit. Suits are important to find detect Flush rankings
+Q: I know already about Ranks, can you show me Suit?
+A: data Suit = Hearts | Spades | Diamonds | Clubs
+Q: What is the function that reads a Strings and yields a list of Cards?
+A: cards :: Entry -> [Card]
+Q: Why isn't the function a function hand from String to Hand?
+A: Because the Strings can 'contain' up to 7 cards, and a Hand is a list of 5 cards. We need to compute the best ranking possible from all the possible hands we can extract from a list of 7 cards.
+Q: What would be a function to do that ? 
+A: bestRanking :: [Card] -> Ranking
+Q: No, I mean, what would be the function to extract all the possible hands?
+A: hands :: [Card] -> [Hand]
+Q: Okay, now what would be name of the function that takes a list of hands and find the best ranking?
+A: bestRanking :: [Hand] -> Maybe Ranking
+Q: Why Maybe?
+A: Because if there's no Hand in the list, there can't be a best ranking as a result.
+Q: How would that happen?
+A: That would happen if the list of cards given to the hands function doesn't contain seven cards. That would mean that the player folded. 
+Q: Can we recapitulate the flows of data we have to create to solve this problem ?
+A: The first one is from String to String, it's called by the main function
+process :: String -> String
+Another one is from String to Maybe Ranking
+Entry -- cards --> [Card] -- hands --> [Hand] --bestRanking--> Maybe Ranking  
+Another one is from a list of Maybe Ranking to a list of Scores:
+[Maybe Ranking] -- scores --> [Score]
+And at least from a list of entries to a list of lines in output: 
+[Entry] --> showScores --> [Line]
+
+
+
+
+
+
+
+
+
