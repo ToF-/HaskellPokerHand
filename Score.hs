@@ -18,10 +18,16 @@ displayScores = unlines . displayScores' . lines
     where 
         displayScores' l = zipWith display l (scores (map cards l))
 
-        display s (h,w) = s ++ showRanking h ++ if w then " (winner)" else ""
+        display s (h,w) = s `with` showRanking h `with` showWinner w
 
-        showRanking Fold = ""
-        showRanking HighCard  = " " ++ "High Card"
-        showRanking Pair      = " " ++ "Pair"
-        showRanking ThreeOfAKind   = " " ++ "Three Of A Kind"
-        showRanking Flush     = " " ++ "Flush"
+        s `with` "" = s
+        s `with` t  = s ++ ' ':t
+
+        showRanking Fold         = ""
+        showRanking HighCard     = "High Card"
+        showRanking Pair         = "Pair"
+        showRanking ThreeOfAKind = "Three Of A Kind"
+        showRanking Flush        = "Flush"
+
+        showWinner True          = "(winner)"
+        showWinner False         = ""
