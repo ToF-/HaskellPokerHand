@@ -1,0 +1,27 @@
+
+ \newpage
+%----------------------------------------------------------------------------------------------------
+\section{Types and Functions} 
+%----------------------------------------------------------------------------------------------------
+\vspace{10cm}
+\hrule
+
+\lhQ If we described the program we need to write as one function, what would be the name and type of this function? 
+\lhA \il! main :: IO()!
+\lhN What would that function do?
+\lhA Compute the scores extracted from the data in the standard input, and print them on the standard output.
+\lhN How would you write this?
+\lhA \begin{lstlisting}[frame=single] 
+main :: IO()
+main = interact computeScores
+\end{lstlisting}
+\lhN How would you write that function: \il! computeScores! ?
+\lhA \begin{lstlisting}[frame=single] 
+computeScores :: String -> String
+computeScores = unlines . mystery . lines
+\end{lstlisting}
+\lhN Your function breaks the input data into separate lines, processes all those line through a mysterious function, then assemble the result into a single output block of text. Why the name \il!mystery! ?  
+\lhA That's because I don't know what function I should write yet.
+
+\lhend
+
