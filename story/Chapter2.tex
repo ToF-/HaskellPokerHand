@@ -1,7 +1,7 @@
 
  \newpage
 %----------------------------------------------------------------------------------------------------
-\section{Types and Functions} 
+\section{Values, Types and Functions} 
 %----------------------------------------------------------------------------------------------------
 \vspace{10cm}
 \hrule
@@ -28,12 +28,18 @@ computeScores = unlines . mystery . lines
 mystery :: [String] -> [String]
 \end{lstlisting}
 \lhN How would you describe a score?
-\lhA It's the combination of either the kind of hand the player made, or nothing if the player folded, and value denoting if that hand is the winner of the game or not. Also there can be more than one winner.
+\lhA It's the combination of either the kind of hand the player made, or nothing if the player folded, and value denoting if that player is the winner of the game or not. Also there can be more than one winner.
 \lhN How would write the type \il!Score!?
 \lhA
 \begin{lstlisting}[frame=single] 
 type Score = (Maybe Kind, Bool)
 \end{lstlisting}
-
+\lhN If it was given a list of entry lines, \emph{and} a list of \il!Score!s, what would a function named \il!appendScores! produce?
+\lhA It would produce the correct presentation of scores, according to the rules of Poker. And the function type would be:
+\begin{lstlisting}[frame=single] 
+appendScores :: [String] -> [Score] -> [String]
+\end{lstlisting}
+\lhN Can we specify this function?
+\lhA Yes.
 \lhend
 
