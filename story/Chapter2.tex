@@ -8,38 +8,68 @@
 
 \lhQ If we described the program we need to write as one function, what would be the name and type of this function? 
 \lhA \il! main :: IO()!
+
 \lhN What would that function do?
 \lhA Compute the scores extracted from the data in the standard input, and print them on the standard output.
+
 \lhN How would you write this?
-\lhA \begin{lstlisting}[frame=single] 
+\lhA \begin{lstlisting}[] 
+
 main :: IO()
 main = interact computeScores
+
 \end{lstlisting}
+
 \lhN How would you write that function: \il! computeScores! ?
-\lhA \begin{lstlisting}[frame=single] 
+\lhA \begin{lstlisting}[] 
+
 computeScores :: String -> String
 computeScores = unlines . mystery . lines
+
 \end{lstlisting}
+
 \lhN Your function breaks the input data into separate lines, processes all those line through a mysterious function, then assemble the result into a single output block of text. Why the name \il!mystery! ?  
 \lhA That's because I don't know what function I should write yet.
+
 \lhN Let's try to specify it, then. What is the information we have about the function so far?
 \lhA It consumes entry lines and yields those same lines with some score info added. So both input and output type are lists of \il!String!s. 
-\begin{lstlisting}[frame=single] 
-mystery :: [String] -> [String]
-\end{lstlisting}
-\lhN How would you describe a score?
-\lhA It's the combination of either the kind of hand the player made, or nothing if the player folded, and value denoting if that player is the winner of the game or not. Also there can be more than one winner.
-\lhN How would write the type \il!Score!?
-\lhA
-\begin{lstlisting}[frame=single] 
-type Score = (Maybe Kind, Bool)
-\end{lstlisting}
-\lhN If it was given a list of entry lines, \emph{and} a list of \il!Score!s, what would a function named \il!appendScores! produce?
-\lhA It would produce the correct presentation of scores, according to the rules of Poker. And the function type would be:
-\begin{lstlisting}[frame=single] 
-appendScores :: [String] -> [Score] -> [String]
-\end{lstlisting}
-\lhN Can we specify this function?
-\lhA Yes.
-\lhend
+\begin{lstlisting}[] 
 
+mystery :: [String] -> [String]
+
+\end{lstlisting}
+
+\lhN How would you name a function that given a list of entry lines and a list of matching scores, would produce the output in the \il!mystery! function?
+\lhA 
+\begin{lstlisting}[] 
+
+displayScores :: [String] -> [Score] -> [String]
+
+\end{lstlisting}
+
+\lhN How would you describe a score?
+\lhA It's the combination of either the kind of hand the player has, or nothing if the player folded, and a value denoting if that player is the winner of the game or not: 
+\begin{lstlisting}[] 
+
+type Score = (Maybe Kind, Bool)
+
+\end{lstlisting}
+
+\lhN What are values of the type named \il!Kind! ?
+\lhA 
+\begin{lstlisting}[] 
+data Kind = HighCard
+          | Pair
+          | TwoPair
+          | ThreeOfAKind
+          | Straight
+          | Flush
+          | FullHouse
+          | FourOfAKind
+          | StraightFlush
+          | RoyalFlush
+
+\end{lstlisting}
+
+
+\lhend
